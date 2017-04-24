@@ -90,5 +90,5 @@ def main():
         board = insert_block(board,x_pos_block,y_pos_block)
         print_board(board)
         char = getch()
-
+#cokolwiek
 main()
