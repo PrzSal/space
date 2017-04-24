@@ -42,7 +42,7 @@ def create_board_block(x_pos_block,y_pos_block):
 				else:
 					board_row_block.append(" ")
 		board_block.append(board_row_block)
-	return board_block
+	return board_blocwk
 '''
 def print_board(board):
 	for row in board:
@@ -56,12 +56,12 @@ def insert_player(board, x_pos, y_pos):
 	return board
 
 
-def move(x_pos,y_pos,char):
+def move(x_pos,y_pos,char,board):
     if char == 'a' and x_pos > 1:
-        #if x_pos_block == x_pos:
-        #    x_pos += 1
-        #else: 
         x_pos -= 1
+        if board[x_pos] == '#':
+            x_pos += 1
+
     elif char == 'd' and x_pos < 58:
         x_pos += 1
     elif char == 'w' and y_pos > 1:
@@ -73,7 +73,7 @@ def move(x_pos,y_pos,char):
 def insert_block(board,y_pos_block,x_pos_block):
     board[x_pos_block][y_pos_block] = '#'
     board[x_pos_block-1][y_pos_block-1] = '#'
-    return board #, x_pos_block, y_pos_block
+    return board
 
 def main():
     x_pos = 15
@@ -82,10 +82,10 @@ def main():
     y_pos_block = 10
     char = ''
     while char != 'p':
-        x_pos, y_pos = move(x_pos, y_pos, char)
         os.system("clear")
         #board_block = create_board_block(x_pos_block,y_pos_block)
         board = create_board(60,20)
+        x_pos, y_pos = move(x_pos, y_pos, char, board)
         board = insert_player(board, x_pos, y_pos)
         board = insert_block(board,x_pos_block,y_pos_block)
         print_board(board)
