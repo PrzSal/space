@@ -51,15 +51,16 @@ def print_board(board):
 		print()
 
 
-def insert_player(board, x_pos, y_pos):
+def insert_player(board, y_pos, x_pos):
 	board[y_pos][x_pos] = '@'
 	return board
 
 
-def move(x_pos,y_pos,char,board):
+def move(y_pos,x_pos,char,board):
     if char == 'a' and x_pos > 1:
         x_pos -= 1
-        if board[x_pos] == '#':
+        print(board[y_pos][x_pos])
+        if board[y_pos][x_pos] == '#':
             x_pos += 1
 
     elif char == 'd' and x_pos < 58:
@@ -68,11 +69,12 @@ def move(x_pos,y_pos,char,board):
         y_pos -= 1
     elif char == 's' and y_pos < 18:
         y_pos += 1
+    print(x_pos,y_pos)
     return x_pos, y_pos        
 
 def insert_block(board,y_pos_block,x_pos_block):
-    board[x_pos_block][y_pos_block] = '#'
-    board[x_pos_block-1][y_pos_block-1] = '#'
+    board[y_pos_block][x_pos_block] = '#'
+    board[y_pos_block-1][x_pos_block-1] = '#'
     return board
 
 def main():
@@ -85,10 +87,9 @@ def main():
         os.system("clear")
         #board_block = create_board_block(x_pos_block,y_pos_block)
         board = create_board(60,20)
-        x_pos, y_pos = move(x_pos, y_pos, char, board)
-        board = insert_player(board, x_pos, y_pos)
-        board = insert_block(board,x_pos_block,y_pos_block)
+        board = insert_block(board,y_pos_block,x_pos_block)
+        x_pos, y_pos = move(y_pos, x_pos, char, board)
+        board = insert_player(board, y_pos, x_pos)
         print_board(board)
         char = getch()
-#cokolwiek
 main()
