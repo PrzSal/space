@@ -28,22 +28,8 @@ def create_board(width,height):
 					board_row.append(" ")
 		board.append(board_row)
 	return board
-'''
-def create_board_block(x_pos_block,y_pos_block):
-	board_block = []
-	for row in range(0,y_pos_block):
-		board_row_block = []
-		for column in range(0,x_pos_block):
-			if row == 0 or row == y_pos_block-1:
-				board_row_block.append("X")
-			else:
-				if column == 0 or column == x_pos_block -1:
-					board_row_block.append("X")
-				else:
-					board_row_block.append(" ")
-		board_block.append(board_row_block)
-	return board_blocwk
-'''
+
+
 def print_board(board):
 	for row in board:
 		for char in row:
@@ -57,24 +43,41 @@ def insert_player(board, y_pos, x_pos):
 
 
 def move(y_pos,x_pos,char,board):
-    if char == 'a' and x_pos > 1:
+    if char == 'a':
         x_pos -= 1
-        print(board[y_pos][x_pos])
         if board[y_pos][x_pos] == '#':
             x_pos += 1
-
-    elif char == 'd' and x_pos < 58:
+        if board[y_pos][x_pos] == '\u001b[0;32m^\'u001b[0m:
+            x_pos += 1
+    elif char == 'd':
         x_pos += 1
-    elif char == 'w' and y_pos > 1:
+        if board[y_pos][x_pos] == '#':
+            x_pos -= 1
+        if board[y_pos][x_pos] == '\u001b[0;32m^\u001b[0m':
+            x_pos -= 1
+    elif char == 'w':
         y_pos -= 1
-    elif char == 's' and y_pos < 18:
+        if board[y_pos][x_pos] == '#':
+            y_pos += 1
+        if board[y_pos][x_pos] == '\u001b[0;32m^\u001b[0m':
+            y_pos += 1
+    elif char == 's':
         y_pos += 1
-    print(x_pos,y_pos)
+        if board[y_pos][x_pos] == '#':
+            y_pos -= 1
+        if board[y_pos][x_pos] == '\u001b[0;32m^\u001b[0m':
+            y_pos -= 1
     return x_pos, y_pos        
+
 
 def insert_block(board,y_pos_block,x_pos_block):
     board[y_pos_block][x_pos_block] = '#'
     board[y_pos_block-1][x_pos_block-1] = '#'
+    return board
+
+def insert_tree(board,y_pos_block,x_pos_block):
+    board[y_pos_block+4][x_pos_block+20] = '\u001b[0;32m^\u001b[0m'
+    board[y_pos_block+5][x_pos_block+20] = '\u001b[0;32m^\u001b[0m'
     return board
 
 def main():
@@ -85,11 +88,12 @@ def main():
     char = ''
     while char != 'p':
         os.system("clear")
-        #board_block = create_board_block(x_pos_block,y_pos_block)
         board = create_board(60,20)
         board = insert_block(board,y_pos_block,x_pos_block)
+        board = insert_tree(board,y_pos_block,x_pos_block)
         x_pos, y_pos = move(y_pos, x_pos, char, board)
         board = insert_player(board, y_pos, x_pos)
         print_board(board)
+        print(x_pos,y_pos)
         char = getch()
 main()
