@@ -1,7 +1,13 @@
 from random import randint
 from time import sleep
 import os
+def intro():
+    txt_open = open('intro.txt', "r")
+    txt_reader = txt_open.read()
 
+
+    print(txt_reader)
+    txt_open.close()
 def getch():
     import sys, tty, termios
     fd = sys.stdin.fileno()
@@ -33,12 +39,12 @@ def create_board(width, height):
 def print_board(board):
 	for row in board:
 		for char in row:
-			print(char, end='')
+			print(char, end = '')
 		print()
 
 
 def insert_player(board, y_pos, x_pos):
-	board[y_pos][x_pos] = '@'
+	board[y_pos][x_pos] = '✈'
 	return board
 
 
@@ -67,7 +73,7 @@ def move(y_pos,x_pos,char,board):
             y_pos -= 1
         if board[y_pos][x_pos] == '\u001b[0;32m^\u001b[0m':
             y_pos -= 1
-    return x_pos, y_pos        
+    return x_pos, y_pos
 
 
 def insert_block(board,y_pos_block,x_pos_block):
@@ -87,6 +93,8 @@ def main():
     y_pos_block = 10
     char = ''
     while char != 'p':
+        os.system("clear")
+        intro()
         os.system("clear")
         board = create_board(60,20)
         board = insert_block(board,y_pos_block,x_pos_block)
