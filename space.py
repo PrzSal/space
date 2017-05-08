@@ -14,7 +14,7 @@ def getch():
     return ch
 
 
-def create_board(width,height):
+def create_board(width, height):
 	board = []
 	for row in range(0,height):
 		board_row = []
@@ -47,7 +47,7 @@ def move(y_pos,x_pos,char,board):
         x_pos -= 1
         if board[y_pos][x_pos] == '#':
             x_pos += 1
-        if board[y_pos][x_pos] == '\u001b[0;32m^\'u001b[0m:
+        if board[y_pos][x_pos] == '\u001b[0;32m^\'u001b[0m':
             x_pos += 1
     elif char == 'd':
         x_pos += 1
