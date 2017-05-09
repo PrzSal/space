@@ -1,5 +1,5 @@
 from random import randint
-from time import sleep
+import time
 import os
 def intro():
     txt_open = open('intro.txt', "r")
@@ -95,12 +95,13 @@ def main():
     while char != 'p':
         os.system("clear")
         intro()
+        #time(1)
         os.system("clear")
         board = create_board(60,20)
         board = insert_block(board,y_pos_block,x_pos_block)
         board = insert_tree(board,y_pos_block,x_pos_block)
         x_pos, y_pos = move(y_pos, x_pos, char, board)
-        board = insert_player(board, y_pos, x_pos)
+        insert_player(board, y_pos, x_pos)
         print_board(board)
         print(x_pos,y_pos)
         char = getch()
