@@ -58,35 +58,30 @@ def insert_player(board, y_pos, x_pos):
 
 
 def move(y_pos, x_pos, char, board):
+    item = ['!', '^', '&']
     if char == 'a':
         x_pos -= 1
         if board[y_pos][x_pos] == '#':
             x_pos += 1
-        if board[y_pos][x_pos] == '^':
-            board[y_pos][x_pos] = ' '
-    elif char == 'd':
+    if char == 'd':
         x_pos += 1
         if board[y_pos][x_pos] == '#':
             x_pos -= 1
-        if board[y_pos][x_pos] == '^':
-            x_pos -= 1
-    elif char == 'w':
+    if char == 'w':
         y_pos -= 1
         if board[y_pos][x_pos] == '#':
             y_pos += 1
-        if board[y_pos][x_pos] == '^':
-            y_pos += 1
-    elif char == 's':
+    if char == 's':
         y_pos += 1
         if board[y_pos][x_pos] == '#':
             y_pos -= 1
-        if board[y_pos][x_pos] == '^':
-            y_pos -= 1
+    if board[y_pos][x_pos] in item:
+        board[y_pos][x_pos] = ' '
     for elem in board:
         for n, i in enumerate(elem):
             if i == '@':
                 elem[n] = ' '
-    #print(board)
+    # print(board)
     return x_pos, y_pos
 
 '''
@@ -115,13 +110,13 @@ def main():
     char = ''
     intro()
     time.sleep(1)
-    board = create_board()  # 60,20
+    board = create_board()
     while char != 'p':
         os.system("clear")
         # board = insert_block(board, y_pos_block, x_pos_block)
         # board = insert_tree(board, y_pos_block, x_pos_block)
         x_pos, y_pos = move(y_pos, x_pos, char, board)
-        insert_player(board, y_pos, x_pos)   # board =
+        insert_player(board, y_pos, x_pos)
         print_board(board, y_pos, x_pos)
         import_inwentory()
         char = getch()
