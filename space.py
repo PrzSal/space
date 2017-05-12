@@ -1,7 +1,7 @@
 from random import randint
 import time
 import os
-
+import inventory
 
 def intro():
     txt_open = open('intro.txt', "r")
@@ -19,6 +19,7 @@ def getch():
         ch = sys.stdin.read(1)
     finally:
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+
     return ch
 
 
@@ -42,52 +43,62 @@ def create_board():   # width, height
                     board_row.append(" ")
         board.append(board_row)
     '''
+
     return board
 
 
-def print_board(board, y_pos, x_pos):
+def print_board(board, y_pos, x_pos, inventory_item):
     for row in board:
         for char in row:
             print(char, end='')
         print()
-
+    inventory.print_table(inventory_item, 'b')
 
 def insert_player(board, y_pos, x_pos):
     board[y_pos][x_pos] = '@'
+
     return board
 
 
+def reader_inventory(inventory, added_items):
+    inventory.import_inventory(inventory, filename='import_inventory.csv')
+    print(inventory)
+    #inventory.add_to_inventory(inventory, added_items)
+
+
+
 def move(y_pos, x_pos, char, board):
+    item = ['!', '^', '&']
     if char == 'a':
+
         x_pos -= 1
         if board[y_pos][x_pos] == '#':
             x_pos += 1
-        #if board[y_pos][x_pos] == '^':
-        #    board[y_pos][x_pos] = ' '
+
     if char == 'd':
         x_pos += 1
         if board[y_pos][x_pos] == '#':
             x_pos -= 1
-        #if board[y_pos][x_pos] == '^':
-        #    board[y_pos][x_pos] = ' '
+
     if char == 'w':
         y_pos -= 1
         if board[y_pos][x_pos] == '#':
             y_pos += 1
-        #if board[y_pos][x_pos] == '^':
-        #    board[y_pos][x_pos] = ' '
+
     if char == 's':
         y_pos += 1
         if board[y_pos][x_pos] == '#':
             y_pos -= 1
-    if board[y_pos][x_pos] == '^':
+    if board[y_pos][x_pos] == '!':
+        inventory.export_inventory(inventory_item, filename='test1.csv')
+    if board[y_pos][x_pos] in item:
         board[y_pos][x_pos] = ' '
-
     for elem in board:
         for n, i in enumerate(elem):
             if i == '@':
                 elem[n] = ' '
-    #print(board)
+    # print(board)
+
     return x_pos, y_pos
 
 '''
@@ -104,8 +115,7 @@ def insert_tree(board, y_pos_block, x_pos_block):
 '''
 
 
-def import_inwentory():
-    import inventory
+
 
 
 def main():
@@ -116,14 +126,17 @@ def main():
     char = ''
     intro()
     time.sleep(1)
-    board = create_board()  # 60,20
+    board = create_board()
     while char != 'p':
         os.system("clear")
+        inwentory = {}
         # board = insert_block(board, y_pos_block, x_pos_block)
         # board = insert_tree(board, y_pos_block, x_pos_block)
+        added_items = ['ammo']
         x_pos, y_pos = move(y_pos, x_pos, char, board)
-        insert_player(board, y_pos, x_pos)   # board =
-        print_board(board, y_pos, x_pos)
-        #import_inwentory()
+        insert_player(board, y_pos, x_pos)
+        reader_inventory(inventory, added_items)
+
+        print_board(board, y_pos, x_pos, inwentory)
         char = getch()
 main()
